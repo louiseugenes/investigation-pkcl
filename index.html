@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1a36">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>O Caso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fundo animado estilo "Noite Estrelada" -->
+  <div class="sky" aria-hidden="true">
+    <div class="moon"></div>
+    <span class="star" style="--x:12%; --y:14%; --d:0s"></span>
+    <span class="star" style="--x:78%; --y:9%;  --d:1.2s"></span>
+    <span class="star" style="--x:32%; --y:26%; --d:2.4s"></span>
+    <span class="star" style="--x:88%; --y:38%; --d:.6s"></span>
+    <span class="star" style="--x:6%;  --y:52%; --d:1.8s"></span>
+    <span class="star" style="--x:62%; --y:70%; --d:3s"></span>
+    <span class="star" style="--x:20%; --y:84%; --d:2s"></span>
+  </div>
+  <canvas id="brush" aria-hidden="true"></canvas>
+
+  <!-- Música de fundo: substitua audio/musica.mp3 pelo seu arquivo (mesmo nome) -->
+  <audio id="music" src="audio/musica.mp3" loop preload="auto" playsinline></audio>
+  <button class="sound" id="sound" aria-label="Ligar ou desligar a música">
+    <span></span><span></span><span></span>
+  </button>
+
+  <main class="stage">
+
+    <!-- TELA 1 — Abertura do caso -->
+    <section class="screen active" id="s-intro">
+      <p class="label">Arquivo nº 0712 · Confidencial</p>
+      <h1 class="title">Um novo caso<br>chegou até você.</h1>
+      <p class="text">Nada é o que parece. Todo bom mentalista começa observando os detalhes.</p>
+      <button class="btn" data-go="s-portrait">Aceitar o caso</button>
+    </section>
+
+    <!-- TELA 2 — O quadro + identificação -->
+    <section class="screen" id="s-portrait">
+      <p class="label">Evidência nº 1</p>
+
+      <button class="frame" id="frame" aria-label="Revelar a evidência">
+        <span class="frame-glow" aria-hidden="true"></span>
+        <img src="images/quadro.png" alt="Nosso retrato pintado" id="portrait" draggable="false">
+        <span class="frame-sweep" aria-hidden="true"></span>
+      </button>
+      <p class="tap-hint" id="tap-hint">toque na evidência</p>
+
+      <form class="identify" id="identify" autocomplete="off" novalidate>
+        <p class="text">Toda investigação precisa de um responsável.<br>Identifique-se, detetive.</p>
+        <input class="field" id="initials" type="text" inputmode="text"
+               autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="Sua identificação" aria-label="Sua identificação">
+        <button class="btn" type="submit">Confirmar</button>
+        <button class="link" type="button" data-hint="hint">Precisa de uma dica?</button>
+        <p class="hint" id="hint">Dica: <em>Iniciais</em></p>
+        <p class="feedback" id="id-feedback" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- TELA 3 — Primeira charada -->
+    <section class="screen" id="s-riddle">
+      <p class="label">Pista nº 1</p>
+      <h2 class="title small">O que é, o que é?</h2>
+      <p class="riddle">
+        Sou um lugar onde playboys, patricinhas e foveiros se misturam.
+        Tenho nome curto com som de latido, e a noite sempre termina com alguém dizendo
+        <em>“só mais uma”</em>.
+      </p>
+      <form class="answer" id="riddle-form" autocomplete="off" novalidate>
+        <input class="field" id="riddle-input" type="text"
+               autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="Sua resposta" aria-label="Sua resposta">
+        <button class="btn" type="submit">Responder</button>
+        <p class="feedback" id="riddle-feedback" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- TELA 4 — Segunda pista: objeto branco (prato) -->
+    <section class="screen" id="s-clue2">
+      <p class="label">Pista nº 2</p>
+      <h2 class="title small">Procure bem.</h2>
+      <p class="riddle">Você encontrará a resposta embaixo de um objeto branco.</p>
+      <form class="answer" id="clue2-form" autocomplete="off" novalidate>
+        <input class="field" id="clue2-input" type="text"
+               autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="O que você encontrou?" aria-label="O que você encontrou?">
+        <button class="btn" type="submit">Confirmar</button>
+        <button class="link" type="button" data-hint="clue2-hint">Precisa de uma dica?</button>
+        <p class="hint" id="clue2-hint">Dica: <em>É duro e redondo</em></p>
+        <p class="feedback" id="clue2-feedback" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- TELA 5 — Transição: pista resolvida -->
+    <section class="screen" id="s-solved">
+      <p class="label">Pista nº 2 · Resolvida</p>
+      <h2 class="title small">Impressionante,<br>detetive.</h2>
+      <p class="text">
+        Nem Patrick Jane teria sido tão rápido. Você leu os sinais, seguiu as pistas
+        e não deixou nenhum detalhe escapar.<br><br>
+        Mas todo bom caso guarda o melhor para o final…
+      </p>
+      <button class="btn" data-go="s-next">Continuar a investigação</button>
+    </section>
+
+    <!-- TELA 6 — Pista nº 3: múltipla escolha -->
+    <section class="screen" id="s-next">
+      <p class="label">Pista nº 3</p>
+      <h2 class="title small">Qual foi o primeiro filme<br>que assistimos juntos?</h2>
+      <div class="options" id="movie-options">
+        <button class="option" type="button">A Odisseia</button>
+        <button class="option" type="button">A morte do demônio</button>
+        <button class="option" type="button" data-correct>Homem-Aranha</button>
+        <button class="option" type="button">O Sorveteiro</button>
+        <button class="option" type="button">Resident Evil</button>
+      </div>
+      <p class="feedback" id="movie-feedback" aria-live="polite"></p>
+    </section>
+
+    <!-- TELA 7 — Pista nº 4: a frase + quadro escuro -->
+    <section class="screen" id="s-after-movie">
+      <p class="label">Pista nº 4</p>
+
+      <div class="case-row">
+        <blockquote class="quote">
+          <span style="--i:0">“O</span> <span style="--i:1">que</span> <span style="--i:2">não</span>
+          <span style="--i:3">tiver</span> <span style="--i:4">resolução,</span>
+          <span style="--i:5">resolvido</span> <span style="--i:6">está.”</span>
+        </blockquote>
+
+        <button class="frame side locked" id="frame2" aria-label="Revelar a evidência">
+          <span class="frame-glow" aria-hidden="true"></span>
+          <img src="images/quadro2.png" alt="Evidência revelada" draggable="false">
+          <span class="frame-sweep" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="quiz" id="quote-quiz">
+        <h2 class="title tiny">Quem disse esta frase?</h2>
+        <div class="options" id="quote-options">
+          <button class="option" type="button">Simone de Beauvoir</button>
+          <button class="option" type="button">Friedrich Nietzsche</button>
+          <button class="option" type="button">Hannah Arendt</button>
+          <button class="option" type="button">Sócrates</button>
+          <button class="option" type="button" data-correct>Pri Scila</button>
+        </div>
+        <p class="feedback" id="quote-feedback" aria-live="polite"></p>
+      </div>
+
+      <p class="unlock" id="quote-unlock">
+        <strong>Exatamente.</strong> A maior pensadora de todos os tempos.<br>
+        <span>Toque na evidência para continuar</span>
+      </p>
+      <button class="btn later" id="quote-continue" data-go="s-final">Continuar</button>
+    </section>
+
+    <!-- TELA 8 — Próximas pistas (placeholder) -->
+    <section class="screen" id="s-final">
+      <p class="label">Pista nº 4 · Resolvida</p>
+      <h2 class="title small">Em breve…</h2>
+      <p class="text">A próxima evidência está sendo preparada.</p>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
