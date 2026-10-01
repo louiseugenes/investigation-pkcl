@@ -4,9 +4,10 @@
   // ---------- Respostas (não diferenciam maiúsculas, acentos, espaços ou pontos) ----------
   const ANSWERS = {
     initials: ["pkcl"],
-    riddle: ["ruff", "ruffs", "ruffbar", "ruffsbar", "barruff", "nachos"],
+    riddle: ["ruff", "ruffs", "ruffbar", "ruffsbar", "barruff", "nachos", "ruf", "rufi", "rufis"],
     clue2: ["lendh"],
     train: ["011026"],
+    home: ["102004"], // código escondido em casa
   };
 
   const normalize = (v) =>
@@ -184,6 +185,22 @@
 
   // ---------- Tela 9: código escondido (dica só aparece se demorar) ----------
   let trainHintTimer;
+  // Pista falsa: a interrogação só aparece 30s depois
+  $("#s-decoy").addEventListener("enter", () => {
+    setTimeout(() => $("#decoy-q").classList.add("show"), 60000);
+  });
+
+  // Tela 5: botão "Já estou em casa" só aparece após 10s
+  $("#s-solved").addEventListener("enter", () => {
+    setTimeout(() => $("#home-btn").classList.add("show"), 10000);
+  });
+
+  // Tela 5.1: código que só existe em casa
+  setupText("#home-form", "#home-input", "#home-feedback",
+    (v) => ANSWERS.home.includes(v),
+    "Código incorreto. Você já está em casa mesmo?",
+    () => go("s-next"));
+
   $("#s-train").addEventListener("enter", () => {
     trainHintTimer = setTimeout(() => $("#train-hint-btn").classList.add("show"), 45000);
   });

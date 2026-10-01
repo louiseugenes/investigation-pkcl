@@ -54,7 +54,7 @@
       <p class="tap-hint" id="tap-hint">toque na evidência</p>
 
       <form class="identify" id="identify" autocomplete="off" novalidate>
-        <p class="text">Toda investigação precisa de um responsável.<br>Identifique-se, detetive.</p>
+        <p class="text">Toda investigação precisa de um responsável.<br>Identifique-se, agente.</p>
         <input class="field" id="initials" type="text" inputmode="text"
                autocapitalize="off" autocorrect="off" spellcheck="false"
                placeholder="Sua identificação" aria-label="Sua identificação">
@@ -71,8 +71,7 @@
       <h2 class="title small">O que é, o que é?</h2>
       <p class="riddle">
         Sou um lugar onde playboys, patricinhas e foveiros se misturam.
-        Tenho nome curto com som de latido, e a noite sempre termina com alguém dizendo
-        <em>“só mais uma”</em>.
+        Tenho nome curto com som de latido.
       </p>
       <form class="answer" id="riddle-form" autocomplete="off" novalidate>
         <input class="field" id="riddle-input" type="text"
@@ -102,13 +101,35 @@
     <!-- TELA 5 — Transição: pista resolvida -->
     <section class="screen" id="s-solved">
       <p class="label">Pista nº 2 · Resolvida</p>
-      <h2 class="title small">Impressionante,<br>detetive.</h2>
+      <h2 class="title small">Impressionante,<br>agente.</h2>
       <p class="text">
         Nem Patrick Jane teria sido tão rápido. Você leu os sinais, seguiu as pistas
         e não deixou nenhum detalhe escapar.<br><br>
-        Mas todo bom caso guarda o melhor para o final…
+        Mas todo bom caso guarda o melhor para o final…<br><br>
+        <span class="accent">A próxima pista só pode ser encontrada em casa.</span>
+        Continue a investigação apenas quando estiver lá.
       </p>
-      <button class="btn" data-go="s-next">Continuar a investigação</button>
+      <button class="btn later" id="home-btn" data-go="s-home">Já estou em casa</button>
+    </section>
+
+    <!-- TELA 5.1 — Confirmação de que está em casa -->
+    <section class="screen" id="s-home">
+      <p class="label">Acesso restrito</p>
+      <svg class="lock" viewBox="0 0 64 64" aria-hidden="true">
+        <path class="lock-shackle" d="M20 28 V20 a12 12 0 0 1 24 0 V28" />
+        <rect class="lock-body" x="14" y="28" width="36" height="26" rx="5" />
+        <circle class="lock-hole" cx="32" cy="39" r="3" />
+        <path class="lock-hole" d="M32 42 V47" />
+      </svg>
+      <h2 class="title small">Bloqueado.</h2>
+      <p class="text">Esta parte do caso só abre em casa.<br>Procure o código e prove que você já chegou.</p>
+      <form class="answer" id="home-form" autocomplete="off" novalidate>
+        <input class="field" id="home-input" type="text" inputmode="numeric"
+               autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="Código de acesso" aria-label="Código de acesso">
+        <button class="btn" type="submit">Desbloquear</button>
+        <p class="feedback" id="home-feedback" aria-live="polite"></p>
+      </form>
     </section>
 
     <!-- TELA 6 — Pista nº 3: múltipla escolha -->
@@ -170,7 +191,34 @@
         As peças começam a se encaixar. Cada resposta revelou um pouco mais da verdade,
         e agora falta muito pouco.<br><br>Mas atenção: a próxima pista não está nesta tela.
       </p>
-      <button class="btn" data-go="s-train">Seguir a pista</button>
+      <button class="btn" data-go="s-decoy">Seguir a pista</button>
+    </section>
+
+    <!-- TELA 8.1 — Pista falsa (despiste) -->
+    <section class="screen" id="s-decoy">
+      <p class="label">Pista nº 5</p>
+      <h2 class="title small">Siga o rastro.</h2>
+      <p class="text">
+        Todas as evidências apontam para um único lugar:
+        <span class="accent">o quarto da Emelayne.</span><br><br>
+        Vá até lá. A resposta está esperando por você.
+      </p>
+      <div class="decoy-q" id="decoy-q">
+        <button class="mystery big" data-go="s-oops" aria-label="Ops!">?</button>
+        <p class="oops">ops!</p>
+      </div>
+    </section>
+
+    <!-- TELA 8.2 — Pista errada -->
+    <section class="screen" id="s-oops">
+      <p class="label">Reviravolta</p>
+      <h2 class="title small">Pista errada.</h2>
+      <p class="text">
+        Parece que alguém plantou uma evidência falsa para te despistar.
+        Até Patrick Jane já caiu nessa.<br><br>
+        A verdadeira pista está <span class="accent">aqui no andar de cima mesmo</span>.
+      </p>
+      <button class="btn" data-go="s-train">Seguir a pista certa</button>
     </section>
 
     <!-- TELA 9 — Pista nº 5: o código escondido -->
@@ -216,7 +264,7 @@
         <path class="lock-hole" d="M32 42 V47" />
       </svg>
       <h2 class="title small">Trancado…</h2>
-      <p class="text">Até os melhores detetives encontram portas fechadas.<br><span class="accent">Onde será que está a chave?</span></p>
+      <p class="text">Até os melhores agentes encontram portas fechadas.<br><span class="accent">Onde será que está a chave?</span></p>
       <button class="btn" data-go="s-key">Continuar</button>
     </section>
 
@@ -241,7 +289,7 @@
       <p class="label">Acesso liberado</p>
       <h2 class="title">Agora sim.</h2>
       <p class="text">A porta está aberta e a verdade está do outro lado.<br><br>
-        <span class="accent">Vá em frente, detetive. Desvende o caso.</span></p>
+        <span class="accent">Vá em frente, agente. Desvende o caso.</span></p>
     </section>
 
   </main>
