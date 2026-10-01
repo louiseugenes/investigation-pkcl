@@ -6,6 +6,7 @@
     initials: ["pkcl"],
     riddle: ["ruff", "ruffs", "ruffbar", "ruffsbar", "barruff", "nachos"],
     clue2: ["lendh"],
+    train: ["011026"],
   };
 
   const normalize = (v) =>
@@ -24,6 +25,7 @@
     setTimeout(() => prev.classList.remove("leaving"), 900);
     next.classList.add("active");
     current = next;
+    next.dispatchEvent(new Event("enter"));
   }
 
   document.querySelectorAll("[data-go]").forEach((b) =>
@@ -160,6 +162,48 @@
     unlock.classList.add("done");
     setTimeout(() => $("#quote-continue").classList.add("show"), 2000);
   });
+
+  // ---------- Formulários de texto das pistas finais ----------
+  function setupText(formSel, inputSel, fbSel, isCorrect, wrongMsg, onCorrect) {
+    const input = $(inputSel);
+    const fb = $(fbSel);
+    $(formSel).addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (isCorrect(normalize(input.value))) {
+        fb.textContent = "";
+        onCorrect();
+      } else {
+        wrong(input, fb, wrongMsg);
+      }
+    });
+    input.addEventListener("input", () => {
+      input.classList.remove("shake");
+      fb.textContent = "";
+    });
+  }
+
+  // ---------- Tela 9: código escondido (dica só aparece se demorar) ----------
+  let trainHintTimer;
+  $("#s-train").addEventListener("enter", () => {
+    trainHintTimer = setTimeout(() => $("#train-hint-btn").classList.add("show"), 45000);
+  });
+
+  setupText("#train-form", "#train-input", "#train-feedback",
+    (v) => ANSWERS.train.includes(v),
+    "Esse não é o código. Continue procurando…",
+    () => {
+      clearTimeout(trainHintTimer);
+      $("#train-input").blur();
+      $("#train-form").style.display = "none";
+      $("#train-unlock").classList.add("show");
+      setTimeout(() => $("#train-continue").classList.add("show"), 900);
+    });
+
+  // ---------- Tela 12: onde estava a chave (aceita "sofá", "sofa", "no sofá"…) ----------
+  setupText("#key-form", "#key-input", "#key-feedback",
+    (v) => v.includes("sofa"),
+    "Hmm… não foi aí. Pense de novo.",
+    () => go("s-unlocked"));
 
   ["#initials", "#riddle-input", "#clue2-input"].forEach((sel) =>
     $(sel).addEventListener("input", (e) => {

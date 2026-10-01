@@ -258,6 +258,39 @@ form { display: flex; flex-direction: column; align-items: center; gap: 12px; wi
 }
 .screen.active .options.done .option:not(.right) { animation: none; opacity: .2; pointer-events: none; }
 
+/* ---------- Pistas finais ---------- */
+.accent { color: var(--gold); font-weight: 400; }
+
+.late-hint { display: none; }
+.late-hint.show { display: inline-block; animation: rise .8s var(--ease) both; }
+
+/* Interrogação discreta que surge alguns segundos depois */
+.mystery {
+  appearance: none;
+  -webkit-appearance: none;
+  margin-top: 26px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(246, 236, 210, .3);
+  background: transparent;
+  color: rgba(246, 236, 210, .7);
+  font: 500 20px/1 "Cormorant Garamond", serif;
+  cursor: pointer;
+}
+.screen.active .mystery { animation: rise 1.2s var(--ease) 6s both, softPulse 3.2s ease-in-out 7.2s infinite; }
+
+/* Cadeado desenhado e balançando */
+.lock { width: 74px; height: 74px; overflow: visible; }
+.lock * { fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 140; stroke-dashoffset: 140; }
+.screen.active .lock { animation: rise .6s var(--ease) both, rattle .7s var(--ease) 2s 2; transform-origin: 50% 20%; }
+.screen.active .lock * { animation: draw 1.6s var(--ease) .3s forwards; }
+.screen.active .lock .lock-hole { animation-delay: 1.2s; }
+
+@keyframes softPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(242, 193, 78, 0); } 50% { box-shadow: 0 0 0 8px rgba(242, 193, 78, .1); } }
+@keyframes draw      { to { stroke-dashoffset: 0; } }
+@keyframes rattle    { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-9deg); } 40% { transform: rotate(7deg); }
+                       60% { transform: rotate(-5deg); } 80% { transform: rotate(3deg); } }
+
 /* ---------- Botão de som (equalizador discreto) ---------- */
 .sound {
   position: fixed;

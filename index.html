@@ -162,11 +162,86 @@
       <button class="btn later" id="quote-continue" data-go="s-final">Continuar</button>
     </section>
 
-    <!-- TELA 8 — Próximas pistas (placeholder) -->
+    <!-- TELA 8 — Transição: perto da resposta -->
     <section class="screen" id="s-final">
       <p class="label">Pista nº 4 · Resolvida</p>
-      <h2 class="title small">Em breve…</h2>
-      <p class="text">A próxima evidência está sendo preparada.</p>
+      <h2 class="title small">Você está<br>chegando perto.</h2>
+      <p class="text">
+        As peças começam a se encaixar. Cada resposta revelou um pouco mais da verdade,
+        e agora falta muito pouco.<br><br>Mas atenção: a próxima pista não está nesta tela.
+      </p>
+      <button class="btn" data-go="s-train">Seguir a pista</button>
+    </section>
+
+    <!-- TELA 9 — Pista nº 5: o código escondido -->
+    <section class="screen" id="s-train">
+      <p class="label">Pista nº 5</p>
+      <h2 class="title small">Procure pela casa.</h2>
+      <p class="riddle">
+        Sou pequeno e cheio de cores. Adoro viajar, mas nunca saio do lugar.
+        Encontre-me e eu te entrego um código.
+      </p>
+      <form class="answer" id="train-form" autocomplete="off" novalidate>
+        <input class="field" id="train-input" type="text" inputmode="numeric"
+               autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="Código encontrado" aria-label="Código encontrado">
+        <button class="btn" type="submit">Confirmar</button>
+        <button class="link late-hint" type="button" id="train-hint-btn" data-hint="train-hint">Está difícil? Ver uma dica</button>
+        <p class="hint" id="train-hint">Dica: <em>ele não gosta de altura… procure onde os pés pisam</em></p>
+        <p class="feedback" id="train-feedback" aria-live="polite"></p>
+      </form>
+      <p class="unlock" id="train-unlock"><strong>Código aceito.</strong><br>Você encontrou o que estava escondido.</p>
+      <button class="btn later" id="train-continue" data-go="s-close">Continuar</button>
+    </section>
+
+    <!-- TELA 10 — A um passo de desvendar o caso -->
+    <section class="screen" id="s-close">
+      <p class="label">Quase lá</p>
+      <h2 class="title small">Falta apenas<br>uma peça.</h2>
+      <p class="text">
+        Você seguiu cada rastro, decifrou cada enigma e não deixou nada escapar.
+        O caso está prestes a ser desvendado.<br><br>
+        <span class="accent">Vá até o quarto.</span> É lá que a última pista espera por você.
+      </p>
+      <button class="mystery" id="mystery" data-go="s-locked" aria-label="Algo aconteceu?">?</button>
+    </section>
+
+    <!-- TELA 11 — Porta trancada -->
+    <section class="screen" id="s-locked">
+      <p class="label">Imprevisto</p>
+      <svg class="lock" viewBox="0 0 64 64" aria-hidden="true">
+        <path class="lock-shackle" d="M20 28 V20 a12 12 0 0 1 24 0 V28" />
+        <rect class="lock-body" x="14" y="28" width="36" height="26" rx="5" />
+        <circle class="lock-hole" cx="32" cy="39" r="3" />
+        <path class="lock-hole" d="M32 42 V47" />
+      </svg>
+      <h2 class="title small">Trancado…</h2>
+      <p class="text">Até os melhores detetives encontram portas fechadas.<br><span class="accent">Onde será que está a chave?</span></p>
+      <button class="btn" data-go="s-key">Continuar</button>
+    </section>
+
+    <!-- TELA 12 — Onde estava a chave -->
+    <section class="screen" id="s-key">
+      <p class="label">A chave</p>
+      <h2 class="title small">Encontrou?</h2>
+      <p class="text">Para continuar, diga onde a chave estava escondida.</p>
+      <form class="answer" id="key-form" autocomplete="off" novalidate>
+        <input class="field" id="key-input" type="text"
+               autocapitalize="off" autocorrect="off" spellcheck="false"
+               placeholder="Onde estava?" aria-label="Onde a chave estava">
+        <button class="btn" type="submit">Confirmar</button>
+        <button class="link" type="button" data-hint="key-hint">Precisa de uma dica?</button>
+        <p class="hint" id="key-hint">Dica: <em>o lugar perfeito para maratonar The Mentalist</em></p>
+        <p class="feedback" id="key-feedback" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- TELA 13 — Liberado -->
+    <section class="screen" id="s-unlocked">
+      <p class="label">Acesso liberado</p>
+      <h2 class="title">Agora sim.</h2>
+      <p class="text">A porta está aberta e a verdade está do outro lado.<br><br>
+        <span class="accent">Vá em frente, detetive. Desvende o caso.</span></p>
     </section>
 
   </main>
